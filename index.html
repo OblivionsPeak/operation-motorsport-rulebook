@@ -543,7 +543,7 @@ document.getElementById('hero-logo').src = 'data:image/jpeg;base64,/9j/4AAQSkZJR
 
 // Backend: Cloudflare Worker (serves rulebook data + checks shared password server-side).
 // Replace the URL below with your deployed Worker URL (no trailing slash). See worker/README.md.
-const API_BASE='https://REPLACE-WITH-YOUR-WORKER.workers.dev';
+const API_BASE='https://opmo-rulebook-api.opmo.workers.dev';
 let isAdmin=false,isActive=false,editData={},currentEditKey=null,adminPass='';
 
 async function loadData(){try{const res=await fetch(API_BASE+'/data',{cache:'no-store'});if(res.ok){const d=await res.json();editData=d.edits||{};isActive=d.isActive||false;applyAllEdits();applyStatus();}}catch(e){console.error('load failed',e);}}
