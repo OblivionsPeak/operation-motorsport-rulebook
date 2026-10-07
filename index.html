@@ -36,6 +36,11 @@ body{background:#000;color:var(--white);font-family:var(--font-body);font-size:1
 #sidebar::-webkit-scrollbar{width:4px;}
 #sidebar::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px;}
 .sidebar-logo{padding:24px 24px 18px;border-bottom:1px solid var(--border);}
+.sidebar-foot{margin-top:auto;padding:14px 24px 18px;border-top:1px solid var(--border);background:#0a0a0a;position:sticky;bottom:0;}
+.admin-btn{display:inline-flex;align-items:center;gap:8px;width:100%;justify-content:center;padding:9px 12px;background:transparent;border:1px solid var(--border);color:var(--gold-dim,#7a6030);font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:color .15s,border-color .15s;}
+.admin-btn svg{width:13px;height:13px;fill:currentColor;}
+.admin-btn:hover,.admin-btn:focus-visible{color:var(--gold);border-color:var(--gold);outline:none;}
+.admin-btn.on{color:#4caf7d;border-color:rgba(76,175,125,.5);}
 .logo-title{font-family:var(--font-display);font-weight:900;font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:var(--white);line-height:1.1;}
 .logo-sub{font-family:var(--font-mono);font-size:10px;color:var(--gold);letter-spacing:.12em;margin-top:6px;}
 .status-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;margin-top:8px;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.1em;background:rgba(201,168,76,.15);color:var(--gold);border:1px solid var(--gold);}
@@ -196,7 +201,7 @@ em.term{font-style:normal;font-family:var(--font-mono);font-size:.88em;color:var
 @media print{
   @page{margin:14mm 12mm;}
   html,body{background:#fff!important;color:#111!important;font-size:10.5pt;}
-  #sidebar,#menu-toggle,#prov-banner,.hero-scroll,.hero-track-lines{display:none!important;}
+  #sidebar,#menu-toggle,#prov-banner,.hero-scroll,.hero-track-lines,.sidebar-foot{display:none!important;}
   #main{margin-left:0!important;background:#fff!important;}
   #hero{min-height:auto!important;padding:0 0 14mm!important;page-break-after:always;background:#fff!important;}
   .hero-logo-wrap{width:78mm!important;}
@@ -290,6 +295,12 @@ em.term{font-style:normal;font-family:var(--font-mono);font-size:.88em;color:var
   <a class="nav-link" href="#s14"><span class="nav-num">14</span>Championship</a>
   <a class="nav-link" href="#s15"><span class="nav-num">15</span>Definitions</a>
   <a class="nav-link" href="#s16"><span class="nav-num">16</span>Final Thoughts</a>
+  <div class="sidebar-foot">
+    <button type="button" id="admin-link" class="admin-btn" title="Season status: log in with the shared admin password to switch the rulebook between PROVISIONAL and ACTIVE">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1a5 5 0 1 0 0 10A5 5 0 0 0 12 1zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>
+      <span>Admin</span>
+    </button>
+  </div>
 </nav>
 
 <main id="main">
@@ -1459,7 +1470,7 @@ em.term{font-style:normal;font-family:var(--font-mono);font-size:.88em;color:var
     </div>
     <p>Questions, concerns, or suggestions should be directed to the eMotorsports Program Management.</p>
     <p class="note" id="version-line">Season 14 &nbsp;|&nbsp; Multi-Class Rulebook v1.0 &nbsp;|&nbsp; <span id="version-status">PROVISIONAL</span> &nbsp;|&nbsp; Written by Chief Steward Sean Bramer &nbsp;|&nbsp; Approved by Program Management</p>
-    <p class="note">Previous season: <a href="season-13.html" style="color:var(--gold)">Season 13 Rulebook (archived)</a> &nbsp;|&nbsp; <a href="#" id="admin-link" style="color:var(--gold-dim,inherit)">Admin</a></p>
+    <p class="note">Previous season: <a href="season-13.html" style="color:var(--gold)">Season 13 Rulebook (archived)</a></p>
   </section>
 </main>
 
@@ -1482,6 +1493,7 @@ em.term{font-style:normal;font-family:var(--font-mono);font-size:.88em;color:var
     if(vs)vs.textContent=on?'ACTIVE':'PROVISIONAL';
     if(badge){badge.style.color=on?'#4caf7d':'';badge.style.borderColor=on?'rgba(76,175,125,.5)':'';}
     var dot=badge&&badge.querySelector('.status-dot');if(dot)dot.style.background=on?'#4caf7d':'';
+    var ab=document.getElementById('admin-link');if(ab){ab.classList.toggle('on',on);ab.querySelector('span').textContent=on?'Admin · Active':'Admin · Provisional';}
   }
   fetch(API_BASE+'/data',{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
     if(d){state.edits=d.edits||{};state.isActive=!!d.isActive;applyStatus();}
